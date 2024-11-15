@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\CategoriesController;
 use App\Http\Controllers\Api\ItemsController;
+use App\Http\Controllers\Api\SummaryController;
 use App\Http\Controllers\Api\SuppliersController;
 use Illuminate\Support\Facades\Route;
 
@@ -42,4 +43,16 @@ Route::controller(ItemsController::class)
     ->group(function () {
         Route::get('/', 'index')->name('index');
         Route::post('/store', 'store')->name('store');
+        Route::get('/stock-limit', 'stockLimit')->name('stock-limit');
+        Route::get('/category', 'itemsByCategory')->name('category');
+    });
+
+Route::controller(SummaryController::class)
+    ->as('api.summary.')
+    ->prefix('api/summary')
+    ->group(function () {
+        Route::get('/general-stock', 'generalStock')->name('general-stock');
+        Route::get('/category', 'category')->name('category');
+        Route::get('/supplier', 'supplier')->name('supplier');
+        Route::get('/all', 'all')->name('all');
     });

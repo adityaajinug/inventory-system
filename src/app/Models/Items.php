@@ -62,4 +62,31 @@ class Items extends Model
                 ->get()
                 ->makeHidden(['category_id', 'supplier_id', 'created_by']);
     }
+
+    public static function getItemsByCategorySummary()
+    {
+        return self::selectRaw('category_id, categories.name, SUM(quantity) as total_stock, SUM(price * quantity) as total_stock_value, AVG(price) as average_price')
+        ->join('categories', 'categories.id', '=', 'items.category_id')
+                   ->groupBy('category_id')
+                   ->get();
+    }
+    public static function getItemsBySupplierSummary()
+    {
+        return self::selectRaw('supplier_id, suppliers.name, SUM(quantity)as total_stock, SUM(price * quantity) as total_stock_value')
+        ->join('suppliers', 'suppliers.id', '=', 'items.supplier_id')
+        ->groupBy('supplier_id')
+        ->get();
+    }
+
+    public static function getAllSummary()
+    {
+        return self::selectRaw('
+            SUM(quantity) as total_stock, 
+            SUM(price * quantity) as total_stock_value, 
+            (SELECT COUNT(*) FROM categories) as total_categories,
+            (SELECT COUNT(*) FROM suppliers) as total_suppliers')
+        ->first();
+    }
+
+
 }
