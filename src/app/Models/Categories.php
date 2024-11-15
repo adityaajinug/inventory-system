@@ -12,6 +12,11 @@ class Categories extends Model
         'name', 'description', 'created_by'
     ];
 
+    protected $casts = [
+        'created_at' => 'datetime:Y-m-d H:i:s',  
+        'updated_at' => 'datetime:Y-m-d H:i:s', 
+    ];
+
     public function createdBy()
     {
         return $this->belongsTo(Admin::class, 'created_by');
