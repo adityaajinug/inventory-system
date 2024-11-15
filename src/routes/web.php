@@ -28,13 +28,13 @@ Route::controller(CategoriesController::class)
         Route::post('/store', 'store')->name('store');
     });
 
-// Route::controller(SuppliersController::class)
-//     ->as('api.suppliers.')
-//     ->prefix('api/suppliers')
-//     ->group(function () {
-//         Route::get('/', 'index')->name('index');
-//         Route::post('/store', 'store')->name('store');
-//     });
+Route::controller(SuppliersController::class)
+    ->as('api.suppliers.')
+    ->prefix('api/suppliers')
+    ->group(function () {
+        Route::get('/', 'index')->name('index');    
+        Route::post('/store', 'store')->name('store');
+    });
 
 // Route::controller(ItemsController::class)
 //     ->as('api.items.')
