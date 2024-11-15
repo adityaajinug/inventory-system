@@ -77,4 +77,57 @@ class ItemsController extends Controller
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }
+
+    public function stockLimit()
+    {
+        try {
+            $summary = Items::getStockLimit();
+
+            if (!$summary) {
+                return response()->json([
+                    'status' => 404,
+                    'message' => 'Items not found',
+                    'data' => null
+                ], 404);
+            } else {
+                return response()->json([
+                    'status' => 200,
+                    'message' => 'success',
+                    'data' => $summary
+                ]);
+            }
+
+        } catch(\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
+
+    public function itemsByCategory(Request $request)
+    {
+        try {
+            $id = $request->query('id');
+
+            if (!$id) {
+                return response()->json([
+                    'status' => 400,
+                    'message' => 'Category ID is required'
+                ], 400);
+            }
+            $items = Items::getItemsByCategory($id);
+            if ($items->isEmpty()) {
+                return response()->json([
+                    'status' => 404,
+                    'message' => 'Items not found',
+                    'data' => null
+                ], 404);
+            }
+            return response()->json([
+                'status' => 200,
+                'message' => 'success',
+                'data' => $items
+            ]);
+        } catch(\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
 }
