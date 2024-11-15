@@ -12,6 +12,11 @@ class Items extends Model
     protected $fillable = [
         'name', 'description', 'price', 'quantity', 'category_id', 'supplier_id', 'created_by'
     ];
+    
+    protected $casts = [
+        'created_at' => 'datetime:Y-m-d H:i:s',  
+        'updated_at' => 'datetime:Y-m-d H:i:s', 
+    ];
 
     public function category()
     {
@@ -26,5 +31,13 @@ class Items extends Model
     public function createdBy()
     {
         return $this->belongsTo(Admin::class, 'created_by');
+    }
+
+    public static function getItems()
+    {
+        return self::query()
+                ->with(['category:id,name', 'supplier:id,name', 'createdBy:id,username'])
+                ->get()
+                ->makeHidden(['category_id', 'supplier_id', 'created_by']);
     }
 }

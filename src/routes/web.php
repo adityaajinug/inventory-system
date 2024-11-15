@@ -36,10 +36,10 @@ Route::controller(SuppliersController::class)
         Route::post('/store', 'store')->name('store');
     });
 
-// Route::controller(ItemsController::class)
-//     ->as('api.items.')
-//     ->prefix('api/items')
-//     ->group(function () {
-//         Route::get('/', 'index')->name('index');
-//         Route::post('/store', 'store')->name('store');
-//     });
+Route::controller(ItemsController::class)
+    ->as('api.items.')
+    ->prefix('api/items')
+    ->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::post('/store', 'store')->name('store');
+    });
